@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\pandu\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\pandu\\.nuget\\packages"
+    ]
+  }
+}
