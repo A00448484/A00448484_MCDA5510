@@ -125,8 +125,8 @@ public class Class1
         string month = folders.GetValue(7).ToString();
         string day = folders.GetValue(8).ToString();
 
-        // Condition to check if month and day is single character.
-        if (day.Length <2)
+        // Condition to check if month and day is single digit.
+        if (day.Length < 2)
         {
             day = '0' + day;
         }
@@ -136,7 +136,9 @@ public class Class1
             month = '0' + month;
         }
         // Make the final string in required date format.
+
         string date =","+year + "/" + month + "/" + day;
+
         return date;
     }
 }
