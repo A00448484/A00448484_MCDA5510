@@ -68,6 +68,18 @@ public class Class1
                             continue;
                         }
 
+                        // Some of the records contain unwanted text in 4th field. For ex "Alm../../Php?"
+                        // Condition to count such records as invalid.
+                        if (fields.Length >= 4)
+                        {
+                            string field_4 = fields.GetValue(3).ToString();
+                            if (field_4.Contains("/"))
+                            {
+                                skipped_row_counter++;
+                                Logger.WriteLog($"Skipping record of the file {file}");
+                                continue;
+                            }
+                        }
                         // Increment valid record coounter.
                         valid_row_counter++;
 
@@ -108,7 +120,7 @@ public class Class1
         // Split the file path to get hierarchy of folders.
         string[] folders = filepath.Split("\\");
 
-        // Get the required names.
+        // Get the required folder names.
         string year = folders.GetValue(6).ToString();
         string month = folders.GetValue(7).ToString();
         string day = folders.GetValue(8).ToString();
