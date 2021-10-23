@@ -125,8 +125,18 @@ public class Class1
         string month = folders.GetValue(7).ToString();
         string day = folders.GetValue(8).ToString();
 
-        // Make the final string in proper date format.
-        string date = "," + year + "/" + month + "/" + day;
+        // Condition to check if month and day is single character.
+        if (day.Length <2)
+        {
+            day = '0' + day;
+        }
+
+        if (month.Length < 2)
+        {
+            month = '0' + month;
+        }
+        // Make the final string in required date format.
+        string date =","+year + "/" + month + "/" + day;
         return date;
     }
 }
