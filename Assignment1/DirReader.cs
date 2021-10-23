@@ -9,22 +9,28 @@ public class DirReader
         List<string> filenames = new List<string>();
 
         string mainDir = "C:\\Users\\pandu\\Downloads\\Sample Data\\Sample Data";
-        foreach (string firstlevel in Directory.GetDirectories(mainDir))
+        try
         {
-
-            foreach (string secondlevel in Directory.GetDirectories(firstlevel))
+            foreach (string firstlevel in Directory.GetDirectories(mainDir))
             {
 
-
-                foreach (string thirdlevel in Directory.GetDirectories(secondlevel))
+                foreach (string secondlevel in Directory.GetDirectories(firstlevel))
                 {
 
-                    foreach (string file in Directory.GetFiles(thirdlevel))
+
+                    foreach (string thirdlevel in Directory.GetDirectories(secondlevel))
                     {
-                        filenames.Add(file);
+
+                        foreach (string file in Directory.GetFiles(thirdlevel))
+                        {
+                            filenames.Add(file);
+                        }
                     }
                 }
             }
+        }
+        catch(Exception e) {
+            Logger.WriteLog(e.Message);
         }
         return filenames;
     }
