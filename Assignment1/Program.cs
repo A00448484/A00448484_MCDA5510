@@ -19,7 +19,7 @@ public class Class1
             outputfile.WriteLine(string.Join(",", csv_header));
         }
 
-        List<string> files = getFileNames();
+        List<string> files = DirReader.getFileNames();
         using (System.IO.StreamWriter outputfile = new System.IO.StreamWriter(csvfile, true))
         {
             foreach (string file in files)
