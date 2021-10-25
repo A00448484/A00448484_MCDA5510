@@ -30,6 +30,7 @@ public class Class1
             using (System.IO.StreamWriter outputfile = new System.IO.StreamWriter(csvfile, false))
             {
                 outputfile.WriteLine(string.Join(",", csv_header));
+                Logger.WriteLog("INFO : Output file opened correctly and cleaned for further writing.");
             }
 
             // Getting all the file names present in the given directory path.
@@ -38,59 +39,65 @@ public class Class1
             // Setting the writer to write records in the output file.
             using (System.IO.StreamWriter outputfile = new System.IO.StreamWriter(csvfile, true))
             {
-                foreach (string file in files)
+                if (files.Count > 0)
                 {
-                    // Setting the parser to reach each line present in the file with proper delimiter.
-                    TextFieldParser parser = new TextFieldParser(file);
-                    parser.TextFieldType = FieldType.Delimited;
-                    parser.SetDelimiters(",");
-
-                    // Generating the date using the folder structure.
-                    string date = getDate(file);
-
-                    // Reading lines until end of the file.
-                    while (!parser.EndOfData)
+                    Logger.WriteLog("INFO : Condition for number of files passed.");
+                    Logger.WriteLog($"INFO : Reading {files.Count.ToString()} files.");
+                    foreach (string file in files)
                     {
-                        string[] fields = parser.ReadFields();
+                        // Setting the parser to reach each line present in the file with proper delimiter.
+                        TextFieldParser parser = new TextFieldParser(file);
+                        parser.TextFieldType = FieldType.Delimited;
+                        parser.SetDelimiters(",");
 
-                        // Checking first value of record to differentiate it with header of each file.
-                        if (fields.GetValue(0).Equals("First Name"))
-                        {
-                            continue;
-                        }
+                        // Generating the date using the folder structure.
+                        string date = getDate(file);
 
-                        // Condition to check the invalid record.
-                        if ((fields.GetValue(0).Equals("")) && (fields.GetValue(1).Equals("")))
+                        // Reading lines until end of the file.
+                        while (!parser.EndOfData)
                         {
-                            // Increment invalid record counter and log it.
-                            skipped_row_counter++;
-                            Logger.WriteLog($"Skipping record of the file {file}");
-                            continue;
-                        }
+                            string[] fields = parser.ReadFields();
 
-                        // Some of the records contain unwanted text in 4th field. For ex "Alm../../Php?"
-                        // Condition to count such records as invalid.
-                        if (fields.Length >= 4)
-                        {
-                            string field_4 = fields.GetValue(3).ToString();
-                            if (field_4.Contains("/"))
+                            // Checking first value of record to differentiate it with header of each file.
+                            if (fields.GetValue(0).Equals("First Name"))
                             {
-                                skipped_row_counter++;
-                                Logger.WriteLog($"Skipping record of the file {file}");
                                 continue;
                             }
+
+                            // Condition to check the invalid record.
+                            if ((fields.GetValue(0).Equals("")) && (fields.GetValue(1).Equals("")))
+                            {
+                                // Increment invalid record counter and log it.
+                                skipped_row_counter++;
+                                Logger.WriteLog($"INFO : Skipping record '{string.Join(',', fields)}' of the file {file}");
+                                continue;
+                            }
+
+                            // Some of the records contain unwanted text in 4th field. For ex "Alm../../Php?"
+                            // Condition to count such records as invalid.
+                            if (fields.Length >= 4)
+                            {
+                                string field_4 = fields.GetValue(3).ToString();
+                                if (field_4.Contains("/"))
+                                {
+                                    skipped_row_counter++;
+                                    Logger.WriteLog($"INFO : Skipping record '{string.Join(',', fields)}' of the file {file}");
+                                    continue;
+                                }
+                            }
+
+                            // Increment valid record coounter.
+                            valid_row_counter++;
+
+                            // Concatenate the fields to make one record.
+                            string record = string.Join(",", fields);
+
+                            // Add date as a last field in the record.
+                            record += date;
+
+                            //Insert record in the output file.
+                            outputfile.WriteLine(record);
                         }
-                        // Increment valid record coounter.
-                        valid_row_counter++;
-
-                        // Concatenate the fields to make one record.
-                        string record = string.Join(",", fields);
-                        
-                        // Add date as a last field in the record.
-                        record += date;
-
-                        //Insert record in the output file.
-                        outputfile.WriteLine(record);
                     }
                 }
             }
