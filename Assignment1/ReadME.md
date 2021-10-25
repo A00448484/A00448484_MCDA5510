@@ -1,6 +1,6 @@
 **Assignment 1**
 
-**Goal: ** To write a program that check and read data from all the files present in the main directory and collate that in one file.
+**Goal **: To write a program that check and read data from all the files present in the main directory and collate that in one file.
 
 **Approach: **
 	
