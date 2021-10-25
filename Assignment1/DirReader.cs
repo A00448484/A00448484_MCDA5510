@@ -33,7 +33,7 @@ public class DirReader
             }
         }
         catch(Exception e) {
-            Logger.WriteLog(e.Message);
+            Logger.WriteLog($"ERROR - {e.Message}");
         }
         // Return all the filnames in a list.
         return filenames;

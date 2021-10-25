@@ -11,7 +11,7 @@ public class Class1
         var watch = System.Diagnostics.Stopwatch.StartNew();
 
         // Logging start of the program.
-        Logger.WriteLog("Starting....");
+        Logger.WriteLog("INFO - Starting....");
 
         // Initializing the counters.
         int valid_row_counter = 0;
@@ -30,7 +30,7 @@ public class Class1
             using (System.IO.StreamWriter outputfile = new System.IO.StreamWriter(csvfile, false))
             {
                 outputfile.WriteLine(string.Join(",", csv_header));
-                Logger.WriteLog("INFO : Output file opened correctly and cleaned for further writing.");
+                Logger.WriteLog("INFO - Output file opened correctly and cleaned for further writing.");
             }
 
             // Getting all the file names present in the given directory path.
@@ -41,8 +41,8 @@ public class Class1
             {
                 if (files.Count > 0)
                 {
-                    Logger.WriteLog("INFO : Condition for number of files passed.");
-                    Logger.WriteLog($"INFO : Reading {files.Count.ToString()} files.");
+                    Logger.WriteLog("INFO - Condition for number of files passed.");
+                    Logger.WriteLog($"INFO - Reading {files.Count.ToString()} files.");
                     foreach (string file in files)
                     {
                         // Setting the parser to reach each line present in the file with proper delimiter.
@@ -69,7 +69,7 @@ public class Class1
                             {
                                 // Increment invalid record counter and log it.
                                 skipped_row_counter++;
-                                Logger.WriteLog($"INFO : Skipping record '{string.Join(',', fields)}' of the file {file}");
+                                Logger.WriteLog($"INFO - Skipping record '{string.Join(',', fields)}' of the file {file}");
                                 continue;
                             }
 
@@ -81,7 +81,7 @@ public class Class1
                                 if (field_4.Contains("/"))
                                 {
                                     skipped_row_counter++;
-                                    Logger.WriteLog($"INFO : Skipping record '{string.Join(',', fields)}' of the file {file}");
+                                    Logger.WriteLog($"INFO - Skipping record '{string.Join(',', fields)}' of the file {file}");
                                     continue;
                                 }
                             }
@@ -103,12 +103,12 @@ public class Class1
             }
         }
         catch(Exception e) {
-            Logger.WriteLog(e.Message);
+            Logger.WriteLog($"ERROR - {e.Message}");
         }
         
         // Log the counts of valid and invalid records in the log file.
-        Logger.WriteLog($"Total number of valid records: {valid_row_counter.ToString()}");
-        Logger.WriteLog($"Total number of invalid/skipped records: {skipped_row_counter.ToString()}");
+        Logger.WriteLog($"INFO - Total number of valid records: {valid_row_counter.ToString()}");
+        Logger.WriteLog($"INFO - Total number of invalid/skipped records: {skipped_row_counter.ToString()}");
 
         // Stop timer for program execution time.
         watch.Stop();
@@ -117,8 +117,8 @@ public class Class1
         var elapsedms = watch.ElapsedMilliseconds;
 
         // Log total execution time in the log file.
-        Logger.WriteLog($"Total execution time in milliseconds: {elapsedms}");
-        Logger.WriteLog("Finished.");
+        Logger.WriteLog($"INFO - Total execution time in milliseconds: {elapsedms}");
+        Logger.WriteLog("INFO - Finished.");
     }
 
     // Method to extract date from the givem file path
